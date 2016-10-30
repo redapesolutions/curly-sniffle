@@ -1,0 +1,39 @@
+there are 1,000 drivers
+and there are 500 clients
+1 client sends a message that gets broadcasted to 1,000 drivers
+each of 1000 drivers receives a message and calls back that client
+
+client receives call and when agreed, presses a button of termination.
+
+// here, it could be more like when a client chooses a driver, he/she "links" to him and when trip is over, client gives feedback
+
+Driver can give feedback to client only if client is registered in system
+
+There will be a pool of requests.
+Adding to pool will be as of queue
+Popping from pool will be at will
+
+- Adding to pool
+>[request 3]
+ [request 2]
+ [request 1]
+
+- Getting from pool
+ [request 3]
+ [request 2]>
+ [request 1]
+
+Client can:
+- Send a request
+- Cancel request
+- Give feedback to selected driver
+- Create a profile
+- Update profile
+
+Driver has to:
+- Create profile
+- Update profile with relevant info
+
+Driver can:
+- See a pool of requests
+- 
