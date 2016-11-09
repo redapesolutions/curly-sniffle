@@ -1,7 +1,9 @@
-from flask import Flask, render_template, abort, jsonify, make_response
-
+from flask import Flask, render_template, abort, jsonify, make_response, request
+from database import *
 
 app = Flask(__name__)
+api_path = '/api/v1.0/'
+
 
 lumberjacks = [
 	{
@@ -22,20 +24,24 @@ lumberjacks = [
 def not_found(error):
 	return make_response(jsonify({'error':'Not Found'}), 404)
 
+
 @app.route('/')
 def home_page():
 	return render_template('index.html')
 
-@app.route('/api/v1.0/lumberjacks', methods=['GET'])
+
+@app.route(api_path + 'lumberjacks', methods=['GET'])
 def get_lumberjacks():
 	return jsonify({'lumberjacks': lumberjacks})
 
-@app.route('/api/v1.0/lumberjacks/<int:lj_id>', methods=['GET'])
-def get_lumberjack(lj_id):
-	lumberjack = list(filter(lambda t: t['id'] == lj_id, lumberjacks))
-	if len(lumberjack) == 0:
-		abort(404)
-	return jsonify({'lumberjack': lumberjack[0]})
+
+@app.route(api_path + 'users/', methods=['POST'])
+def new_user():
+	if not request.json or not 'email' in request.json:
+		abort(400)
+	user = {'name': request.json['name'], 'email': request.json['email'], 'password': request.json['password'] }
+	return jsonify({'user': user}), 201
+
 
 
 if __name__ == '__main__':
