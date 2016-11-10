@@ -51,3 +51,7 @@ def get_users():
 	result = get_all_users()
 	return jsonify({'users': result})
 	return jsonify({'user': user}), 201
+
+
+if __name__ == '__main__':
+	app.run()
