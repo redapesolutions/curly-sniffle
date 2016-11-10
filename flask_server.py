@@ -1,5 +1,7 @@
 from flask import Flask, render_template, abort, jsonify, make_response, request
-from database import *
+from database import create_user, get_all_users
+from lj_models import User
+
 
 app = Flask(__name__)
 api_path = '/api/v1.0/'
@@ -40,9 +42,15 @@ def new_user():
 	if not request.json or not 'email' in request.json:
 		abort(400)
 	user = {'name': request.json['name'], 'email': request.json['email'], 'password': request.json['password'] }
-	return jsonify({'user': user}), 201
+	user = User(request.json['name'], request.json['email'], request.json['password'])
+	create_user(user)
 
+
+@app.route(api_path + 'users/', methods=['GET'])
+def get_users():
+	result = get_all_users()
+	return jsonify({'users': result})
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True, host='0.0.0.0')
