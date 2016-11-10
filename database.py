@@ -17,6 +17,9 @@ def get_all_users():
 	db_cursor.execute(sql)
 	result = db_cursor.fetchall()
 	return result
+	result = db_cursor.fetchone()
+	print(result)
+
 
 def get_user_by_id(id):
 	sql = "SELECT * FROM `lj_users` WHERE id = {};".format(id)
@@ -30,6 +33,7 @@ def create_user(user):
 			# Create a new record
 			sql = "INSERT INTO `lj_users` (`name`, `email`, `password`) VALUES (%s, %s, %s)"
 			cursor.execute(sql, (user.name, user.email, user.password))
+			cursor.execute(sql, (user.name, name.email, name.password))
 		# conn is not autocommit by default. So you must commit to save
 		# your changes.
 		conn.commit()
@@ -37,6 +41,7 @@ def create_user(user):
 		with conn.cursor() as cursor:
 			# Read a single record
 			sql = "SELECT `id`, `password` FROM `lj_users` WHERE `email` = %s"
+			sql = "SELECT `id`, `password` FROM `lj_users` WHERE `email`=%s"
 			cursor.execute(sql, (user.email))
 			result = cursor.fetchone()
 			print(result)
